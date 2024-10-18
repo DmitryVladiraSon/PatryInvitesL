@@ -18,7 +18,7 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 
-app.UseDeveloperExceptionPage();
+app.UseDeveloperExceptionPage(); //7
 app.UseStatusCodePages();
 app.UseStaticFiles();
 
