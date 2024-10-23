@@ -1,0 +1,17 @@
+﻿@model GuestResponse
+<div class="text-center mt-3">
+    <h1>Thank you, @Model.Name!</h1>
+    @if (Model.WillAttend == true)
+    {
+<div>
+                It's great that you're coming. 
+            </div>
+    }else
+    {
+            <div>
+                Sorry to hear that you can't make it.
+            </div>
+
+        }
+        Click <a href="Home/ListResponses">here</a> to see who is coming PatryInvites\Views\Home\Thanks.cshtml
+</div>

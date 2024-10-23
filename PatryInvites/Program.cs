@@ -3,26 +3,39 @@ using PatryInvites.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMvc(options =>
-{
-    options.EnableEndpointRouting = false;
-});
+// Настройка сервисов
+builder.Services.AddControllersWithViews(); // Используйте этот метод для MVC
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-options.UseSqlServer(builder.Configuration
-    .GetConnectionString("DefaultConntecting"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); // Исправьте опечатку
 });
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+// Настройка middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
 
-app.UseDeveloperExceptionPage(); //7
-app.UseStatusCodePages();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseMvcWithDefaultRoute();
+app.UseRouting(); // Используйте Routing
 
+app.UseAuthorization(); // Если вы используете авторизацию
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();
